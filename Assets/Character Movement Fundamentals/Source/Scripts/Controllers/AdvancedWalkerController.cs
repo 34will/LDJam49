@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
 namespace CMF
@@ -93,8 +94,15 @@ namespace CMF
 		{
 		}
 
+		private bool IsNotMine()
+		{
+			return !photonView.IsMine && PhotonNetwork.IsConnected;
+		}
+
 		void Update()
 		{
+			if (IsNotMine())
+				return;
 			HandleJumpKeyInput();
 		}
 
@@ -117,6 +125,8 @@ namespace CMF
 
         void FixedUpdate()
 		{
+			if (IsNotMine())
+				return;
 			ControllerUpdate();
 		}
 
