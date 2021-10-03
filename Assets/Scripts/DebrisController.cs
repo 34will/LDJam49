@@ -37,7 +37,7 @@ public class DebrisController : MonoBehaviour
         for (int i = 0; i < InitialDebrisCount; i++)
         {
             int index = Random.Range(0, DebrisPrefabs.Count);
-            GameObject debris = PhotonNetwork.Instantiate(DebrisPrefabs[index].name, new Vector3(0, -10000, 0), Quaternion.identity);
+            GameObject debris = PhotonNetwork.Instantiate($"Debris/{DebrisPrefabs[index].name}", new Vector3(0, -10000, 0), Quaternion.identity);
             debris.SetActive(false);
             Debris.Add(new Debris
             {
