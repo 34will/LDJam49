@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5053258255596789288}
   - component: {fileID: 3723888688863056079}
   - component: {fileID: 1980713001958056232}
+  - component: {fileID: 3946769119054265620}
   m_Layer: 0
   m_Name: Sphere Debris
   m_TagString: Untagged
@@ -129,7 +130,7 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 3
+  Synchronization: 2
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
@@ -151,5 +152,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SynchronizeVelocity: 1
   m_SynchronizeAngularVelocity: 1
-  m_TeleportEnabled: 0
-  m_TeleportIfDistanceGreaterThan: 3
+  m_TeleportEnabled: 1
+  m_TeleportIfDistanceGreaterThan: 1
+--- !u!114 &3946769119054265620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8265922887739810943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8db3240bd9430ad4ca5561054e7aba5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

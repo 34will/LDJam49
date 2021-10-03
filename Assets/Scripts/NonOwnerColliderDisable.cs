@@ -1,3 +1,4 @@
+using System.Linq;
 using Photon.Pun;
 using UnityEngine;
 
@@ -10,7 +11,9 @@ namespace Unstable
             if (PhotonNetwork.IsMasterClient)
                 return;
 
-            Rigidbody[] rigidBodies = GetComponentsInChildren<Rigidbody>();
+            Rigidbody[] rigidBodies = GetComponents<Rigidbody>()
+                .Concat(GetComponentsInChildren<Rigidbody>())
+                .ToArray();
             foreach (Rigidbody rigidBody in rigidBodies)
                 rigidBody.isKinematic = true;
         }
