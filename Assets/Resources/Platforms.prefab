@@ -63,6 +63,8 @@ MonoBehaviour:
       Value: {fileID: 2058935453206978320, guid: 648eb659c581be64aa85b89906d10e0c, type: 3}
     - Key: Q
       Value: {fileID: 544879828719696754, guid: 484fe7278d97ab740b3403819ad1064f, type: 3}
+    - Key: D
+      Value: {fileID: 878754720360153725, guid: 3e2c32e7a04057d4fa155d19f0c4e698, type: 3}
     keyCollision: 0
   MapString: 
   TileSize: 20

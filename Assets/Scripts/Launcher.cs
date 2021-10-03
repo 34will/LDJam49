@@ -135,7 +135,8 @@ namespace Unstable
                 PublishUserId = true,
                 CustomRoomProperties = new Hashtable
                 {
-                    { "m", "5x5MS-S-S| | |S-Z-S| | |S-S-S" }
+                    // { "m", "5x5MS-S-S| | |S-Z-S| | |S-S-S" }
+                    { "m", "5x5MS-S-S| | |S-D-S| | |S-S-S" }
                 }
             });
         }
