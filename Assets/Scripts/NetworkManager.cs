@@ -26,10 +26,15 @@ namespace Unstable
 
             UnstableRoomOptions options = UnstableRoomOptions.Current;
 
-            Instantiate(PlatformsPrefab, Vector3.zero, Quaternion.identity);
+            GameObject platforms = Instantiate(PlatformsPrefab, Vector3.zero, Quaternion.identity);
+            PlatformGenerator platformGenerator = platforms.GetComponent<PlatformGenerator>();
 
             if (options.Debris)
-                Instantiate(DebrisPrefab, Vector3.zero, Quaternion.identity);
+            {
+                GameObject debris = Instantiate(DebrisPrefab, Vector3.zero, Quaternion.identity);
+                DebrisController debrisController = debris.GetComponent<DebrisController>();
+                debrisController.PlatformGenerator = platformGenerator;
+            }
         }
 
         public override void OnLeftRoom()
