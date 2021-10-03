@@ -141,8 +141,8 @@ GameObject:
   - component: {fileID: 5673863574078897808}
   - component: {fileID: 5673887469617317816}
   - component: {fileID: 2261068853101274331}
-  - component: {fileID: 3362559895228107089}
   - component: {fileID: 6578649511477230316}
+  - component: {fileID: 3362559895228107089}
   - component: {fileID: 6402011809554207324}
   m_Layer: 0
   m_Name: Player
@@ -287,19 +287,6 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &3362559895228107089
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5705114112157047880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a78fbac464954940ac8d1b9ecf3b727, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Camera: {fileID: 5705792504241568998}
 --- !u!114 &6578649511477230316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,6 +303,19 @@ MonoBehaviour:
   m_SynchronizeAngularVelocity: 1
   m_TeleportEnabled: 1
   m_TeleportIfDistanceGreaterThan: 1
+--- !u!114 &3362559895228107089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5705114112157047880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a78fbac464954940ac8d1b9ecf3b727, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Camera: {fileID: 5705792504241568998}
 --- !u!114 &6402011809554207324
 MonoBehaviour:
   m_ObjectHideFlags: 0
