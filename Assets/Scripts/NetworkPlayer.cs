@@ -41,6 +41,7 @@ namespace Unstable
             rigidBody.position = new Vector3(0.0f, 30.0f, 0.0f);
             rigidBody.velocity = Vector3.zero;
             rigidBody.angularVelocity = Vector3.zero;
+            rigidBody.isKinematic = true;
 
             Destroy(Model);
 
