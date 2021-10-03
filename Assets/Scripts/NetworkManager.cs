@@ -9,6 +9,7 @@ namespace Unstable
     {
         public GameObject PlayerPrefab;
         public GameObject PlatformsPrefab;
+        public GameObject DebrisPrefab;
 
         public void Start()
         {
@@ -23,8 +24,12 @@ namespace Unstable
             if (!PhotonNetwork.IsMasterClient)
                 return;
 
-            Debug.LogFormat("We are Instantiating PlatformsPrefab from {0}", SceneManagerHelper.ActiveSceneName);
+            UnstableRoomOptions options = UnstableRoomOptions.Current;
+
             Instantiate(PlatformsPrefab, Vector3.zero, Quaternion.identity);
+
+            if (options.Debris)
+                Instantiate(DebrisPrefab, Vector3.zero, Quaternion.identity);
         }
 
         public override void OnLeftRoom()

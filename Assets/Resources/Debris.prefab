@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &967659392460475940
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 967659392460475942}
+  - component: {fileID: 967659392460475943}
+  m_Layer: 0
+  m_Name: Debris
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &967659392460475942
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 967659392460475940}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &967659392460475943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 967659392460475940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 480da3a4cc71ae046b10c9e05b7ca5a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DebrisPrefabs:
+  - {fileID: 5524026132679227924, guid: f50b02d963c5a4e44964d8b8076913e5, type: 3}
+  - {fileID: 2472363110054451801, guid: a9bf75b251e345f479f890d98575e2b6, type: 3}
+  - {fileID: 8265922887739810943, guid: 483a92cdcfe39884581ff81881aeda42, type: 3}
+  PlatformGenerator: {fileID: 0}
+  SpawnInterval: 5
+  SpawnHeight: 30
+  MinScale: 1
+  MaxScale: 3
+  InitialDebrisCount: 20

@@ -247,6 +247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerPrefab: {fileID: 5705114112157047880, guid: 482d898c4fd1c024dae6833ebdfa96fd, type: 3}
   PlatformsPrefab: {fileID: 61806477010657553, guid: 69e10a38de3ff6b48a1d8be1a61d4d00, type: 3}
+  DebrisPrefab: {fileID: 967659392460475940, guid: 92fda2877329d844eb8159c6387a9672, type: 3}
 --- !u!4 &180667988
 Transform:
   m_ObjectHideFlags: 0
@@ -254,59 +255,6 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 180667986}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &202987065
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 202987067}
-  - component: {fileID: 202987066}
-  m_Layer: 0
-  m_Name: DebrisDropper
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &202987066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 202987065}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 480da3a4cc71ae046b10c9e05b7ca5a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DebrisPrefabs:
-  - {fileID: 5524026132679227924, guid: f50b02d963c5a4e44964d8b8076913e5, type: 3}
-  - {fileID: 2472363110054451801, guid: a9bf75b251e345f479f890d98575e2b6, type: 3}
-  - {fileID: 8265922887739810943, guid: 483a92cdcfe39884581ff81881aeda42, type: 3}
-  PlatformGenerator: {fileID: 0}
-  SpawnInterval: 5
-  SpawnHeight: 30
-  MinScale: 1
-  MaxScale: 3
-  InitialDebrisCount: 20
---- !u!4 &202987067
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 202987065}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -672,7 +620,7 @@ RectTransform:
   m_Children:
   - {fileID: 713738604}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -743,7 +691,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2018832037
 GameObject:
