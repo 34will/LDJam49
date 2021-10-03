@@ -1,10 +1,14 @@
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using Photon.Pun;
 using UnityEngine;
 using Unstable.Utility;
 
 public class PlatformGenerator : MonoBehaviour
 {
     private readonly static Regex mapRegex = new Regex("^(\\d+)x(\\d+)([MRmr])(.*)$");
+
+    private List<GameObject> Platforms = new List<GameObject>();
 
     public GenericDictionary<string, GameObject> Tiles;
     public string MapString;
@@ -17,18 +21,20 @@ public class PlatformGenerator : MonoBehaviour
 
     public void Start()
     {
-        CreateMapFromMapString();
-    }
+        if (!PhotonNetwork.IsMasterClient)
+            return;
 
-    public void Update()
-    {
-        
+        Debug.Log("Platforms Start");
+        MapString = PhotonNetwork.CurrentRoom.CustomProperties["m"].ToString();
+        CreateMapFromMapString();
     }
 
     private void DestroyAllChildren()
     {
-         foreach (Transform child in transform)
-            Destroy(child.gameObject);
+        foreach (GameObject platform in Platforms)
+            PhotonNetwork.Destroy(platform);
+
+        Platforms.Clear();
     }
 
     private void CreateMapFromMapString()
@@ -80,6 +86,7 @@ public class PlatformGenerator : MonoBehaviour
                     return;
                 }
 
+                Platforms = new List<GameObject>(size);
                 for (int j = 0; j < MapHeight; j++)
                 {
                     for (int i = 0; i < MapWidth; i++)
@@ -91,7 +98,8 @@ public class PlatformGenerator : MonoBehaviour
                             continue;
                         }
 
-                        Instantiate(prefab, new Vector3(TileOffset * j, 0, TileOffset * i), Quaternion.identity, transform);
+                        GameObject platform = PhotonNetwork.InstantiateRoomObject($"Platforms/{prefab.name}", new Vector3(TileOffset * j, 0, TileOffset * i), Quaternion.identity);
+                        Platforms.Add(platform);
                     }
                 }
 

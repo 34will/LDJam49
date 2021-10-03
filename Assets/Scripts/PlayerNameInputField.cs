@@ -28,13 +28,11 @@ namespace Unstable
         public void SetPlayerName(string value)
         {
             if (string.IsNullOrEmpty(value))
-            {
-                Debug.LogError("Player Name is null or empty");
                 return;
-            }
-            PhotonNetwork.NickName = value;
 
+            PhotonNetwork.NickName = value;
             PlayerPrefs.SetString(playerNamePrefKey, value);
+            Debug.Log(PhotonNetwork.NickName);
         }
     }
 }

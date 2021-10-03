@@ -8,6 +8,7 @@ namespace Unstable
     public class NetworkManager : MonoBehaviourPunCallbacks
     {
         public GameObject PlayerPrefab;
+        public GameObject PlatformsPrefab;
 
         public void Start()
         {
@@ -16,8 +17,14 @@ namespace Unstable
             else
             {
                 Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
-                PhotonNetwork.Instantiate(PlayerPrefab.name, new Vector3(0.0f, 5.0f, 0.0f), Quaternion.identity, 0);
+                PhotonNetwork.Instantiate(PlayerPrefab.name, new Vector3(0.0f, 30.0f, 0.0f), Quaternion.identity, 0);
             }
+
+            if (!PhotonNetwork.IsMasterClient)
+                return;
+
+            Debug.LogFormat("We are Instantiating PlatformsPrefab from {0}", SceneManagerHelper.ActiveSceneName);
+            Instantiate(PlatformsPrefab, Vector3.zero, Quaternion.identity);
         }
 
         public override void OnLeftRoom()

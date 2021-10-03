@@ -227,7 +227,7 @@ GameObject:
   - component: {fileID: 180667988}
   - component: {fileID: 180667987}
   m_Layer: 0
-  m_Name: NetworkManager
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -246,6 +246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerPrefab: {fileID: 5705114112157047880, guid: 482d898c4fd1c024dae6833ebdfa96fd, type: 3}
+  PlatformsPrefab: {fileID: 61806477010657553, guid: 69e10a38de3ff6b48a1d8be1a61d4d00, type: 3}
 --- !u!4 &180667988
 Transform:
   m_ObjectHideFlags: 0
@@ -258,7 +259,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &202987065
 GameObject:
@@ -293,7 +294,7 @@ MonoBehaviour:
   - {fileID: 5524026132679227924, guid: f50b02d963c5a4e44964d8b8076913e5, type: 3}
   - {fileID: 2472363110054451801, guid: a9bf75b251e345f479f890d98575e2b6, type: 3}
   - {fileID: 8265922887739810943, guid: 483a92cdcfe39884581ff81881aeda42, type: 3}
-  PlatformGenerator: {fileID: 1340574997}
+  PlatformGenerator: {fileID: 0}
   SpawnInterval: 5
   SpawnHeight: 30
   MinScale: 1
@@ -311,7 +312,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &713738603
 GameObject:
@@ -445,75 +446,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1340574995
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1340574996}
-  - component: {fileID: 1340574997}
-  m_Layer: 0
-  m_Name: Platform
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1340574996
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1340574995}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1340574997
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1340574995}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70b3becc20162fd428c2aba8fd840b4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Tiles:
-    list:
-    - Key: O
-      Value: {fileID: 8627445216771498238, guid: c089fd9ecfa172a4b8a67c0300547cee, type: 3}
-    - Key: +
-      Value: {fileID: 551043000343834343, guid: 3479451e3387dc04a8cb94d885b89128, type: 3}
-    - Key: S
-      Value: {fileID: 897209612754058816, guid: e755dfefcf6eb07488530741a7fde980, type: 3}
-    - Key: T
-      Value: {fileID: 7070324157213145234, guid: 6a39c5b3fb2b1ef4cb0b883c09478e5f, type: 3}
-    - Key: E
-      Value: {fileID: 4694467249937327835, guid: 994213d5f3a7b39458f35666a19bdf42, type: 3}
-    - Key: '-'
-      Value: {fileID: 5037685209277687372, guid: 7610d958b4fd51741bab1ade841cbc0a, type: 3}
-    - Key: Z
-      Value: {fileID: 1835153312283740969, guid: 9fa77e83da9a87c46a54a291020ab1cd, type: 3}
-    - Key: '|'
-      Value: {fileID: 2058935453206978320, guid: 648eb659c581be64aa85b89906d10e0c, type: 3}
-    - Key: Q
-      Value: {fileID: 544879828719696754, guid: 484fe7278d97ab740b3403819ad1064f, type: 3}
-    keyCollision: 0
-  MapString: 5x5MS-S-S| | |S-Z-S| | |S-S-S
-  TileSize: 20
-  TileGap: 0.5
-  MapWidth: 0
-  MapHeight: 0
 --- !u!1 &1566856340
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,12 +592,12 @@ GameObject:
   - component: {fileID: 1639006358}
   - component: {fileID: 1639006357}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UnstableUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1639006357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -740,7 +672,7 @@ RectTransform:
   m_Children:
   - {fileID: 713738604}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -811,7 +743,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2018832037
 GameObject:
