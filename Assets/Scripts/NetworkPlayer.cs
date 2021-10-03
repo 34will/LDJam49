@@ -9,7 +9,7 @@ namespace Unstable
     [RequireComponent(typeof(UIManager))]
     public class NetworkPlayer : MonoBehaviourPun
     {
-        public static GameObject LocalPlayerInstance;
+        public static NetworkPlayer Instance;
 
         private Rigidbody rigidBody;
 
@@ -25,10 +25,12 @@ namespace Unstable
 
         public List<MonoBehaviour> ToDisableOnDeath;
 
+        public Vector3 MapCenter;
+
         public void Awake()
         {
             if (photonView.IsMine)
-                LocalPlayerInstance = gameObject;
+                Instance = this;
 
             DontDestroyOnLoad(gameObject);
         }
@@ -50,24 +52,56 @@ namespace Unstable
             uiManager.UI.DeathMessage.OnMessageShown -= OnPlayerDeathMessageShown;
         }
 
-        [PunRPC]
-        public void Die()
+        private void SetState(bool dead)
         {
-            rigidBody.isKinematic = true;
+            if (IsDead == dead)
+                return;
+
+            foreach (MonoBehaviour behaviour in ToDisableOnDeath)
+                behaviour.enabled = !dead;
+
+            rigidBody.isKinematic = dead;
             rigidBody.velocity = Vector3.zero;
             rigidBody.angularVelocity = Vector3.zero;
 
-            Destroy(Model);
+            Model.SetActive(!dead);
 
-            IsDead = true;
+            IsDead = dead;
+        }
 
+        [PunRPC]
+        private void DoRevive()
+        {
+            SetState(false);
+
+            if (!photonView.IsMine)
+                return;
+            uiManager.OnRevive();
+        }
+
+        public void Revive()
+        {
+            if (!IsDead)
+                return;
+
+            photonView.RPC("DoRevive", RpcTarget.Others);
+            DoRevive();
+        }
+
+        [PunRPC]
+        private void Die()
+        {
+            SetState(true);
+
+            if (!photonView.IsMine)
+                return;
             uiManager.OnDeath();
         }
 
         [PunRPC]
-        public void ResetPlayerPosition()
+        private void ResetPlayerPosition()
         {
-            rigidBody.position = new Vector3(0.0f, 30.0f, 0.0f);
+            rigidBody.position = MapCenter;
         }
 
         private void OnPlayerDeathMessageShown(object sender, EventArgs e)
@@ -83,9 +117,6 @@ namespace Unstable
 
             if (transform.position.y > DeathHeight || IsDead)
                 return;
-
-            foreach (MonoBehaviour behaviour in ToDisableOnDeath)
-                behaviour.enabled = false;
 
             photonView.RPC("Die", RpcTarget.Others);
             Die();

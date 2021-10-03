@@ -11,16 +11,10 @@ public class PlatformGenerator : MonoBehaviour
 
     public GenericDictionary<string, GameObject> Tiles;
 
+    public string[][] CurrentTiles;
+
     public float TileSize = 20.0f;
     public float TileGap = 0.5f;
-
-    public void Start()
-    {
-        if (!PhotonNetwork.IsMasterClient)
-            return;
-
-        CreateMapFromOptions();
-    }
 
     private void DestroyAllChildren()
     {
@@ -28,15 +22,20 @@ public class PlatformGenerator : MonoBehaviour
             PhotonNetwork.Destroy(platform);
 
         Platforms.Clear();
+        CurrentTiles = null;
     }
 
-    private void CreateMapFromOptions()
+    public void CreateMapFromOptions()
     {
         DestroyAllChildren();
 
         UnstableRoomOptions options = UnstableRoomOptions.Current;
         int MapWidth = options.Width;
         int MapHeight = options.Height;
+
+        CurrentTiles = new string[MapWidth][];
+        for (int i = 0; i < MapWidth; i++)
+            CurrentTiles[i] = new string[MapHeight];
 
         switch (options.MapType)
         {
@@ -58,11 +57,13 @@ public class PlatformGenerator : MonoBehaviour
                         if (!Tiles.TryGetValue(character, out GameObject prefab))
                         {
                             Debug.Log($"Failed to get Tile for character '{character}', adding air");
+                            CurrentTiles[i][j] = null;
                             continue;
                         }
 
                         GameObject platform = PhotonNetwork.InstantiateRoomObject($"Platforms/{prefab.name}", new Vector3(TileOffset * j, 0, TileOffset * i), Quaternion.identity);
                         Platforms.Add(platform);
+                        CurrentTiles[i][j] = character;
                     }
                 }
 

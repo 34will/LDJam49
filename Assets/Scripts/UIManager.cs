@@ -63,6 +63,12 @@ public class UIManager : MonoBehaviourPun
             cancelKeyHeld = false;
     }
 
+    public void OnRevive()
+    {
+        UI.DeathMessage.gameObject.SetActive(false);
+        UI.SpectatingPanel.gameObject.SetActive(false);
+    }
+
     public void OnDeath()
     {
         UI.DeathMessage.gameObject.SetActive(true);
