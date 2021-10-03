@@ -75,6 +75,7 @@ public class DebrisController : MonoBehaviour
         float scale = Random.Range(MinScale, MaxScale);
         nextDebris.Active = true;
         nextDebris.GameObject.transform.position = position.Value;
+        nextDebris.GameObject.transform.rotation = Random.rotation;
         nextDebris.GameObject.transform.localScale = new Vector3(scale, scale, scale);
         nextDebris.GameObject.SetActive(true);
         spawnCounter++;
