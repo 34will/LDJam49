@@ -213,8 +213,6 @@ namespace Unstable
             if (options == null)
                 return;
 
-            Debug.Log(options);
-
             if (PhotonNetwork.IsMasterClient)
             {
                 switch (options.MapType)
