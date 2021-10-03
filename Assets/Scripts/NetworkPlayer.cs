@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine;
@@ -5,11 +6,14 @@ using UnityEngine;
 namespace Unstable
 {
     [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(UIManager))]
     public class NetworkPlayer : MonoBehaviourPun
     {
         public static GameObject LocalPlayerInstance;
 
         private Rigidbody rigidBody;
+
+        private UIManager uiManager;
 
         public GameObject Camera;
 
@@ -33,19 +37,43 @@ namespace Unstable
         {
             Camera.SetActive(photonView.IsMine);
             rigidBody = GetComponent<Rigidbody>();
+
+            if (!photonView.IsMine)
+                return;
+
+            uiManager = GetComponent<UIManager>();
+            uiManager.UI.DeathMessage.OnMessageShown += OnPlayerDeathMessageShown;
+        }
+
+        public void Destroy()
+        {
+            uiManager.UI.DeathMessage.OnMessageShown -= OnPlayerDeathMessageShown;
         }
 
         [PunRPC]
         public void Die()
         {
             rigidBody.isKinematic = true;
-            rigidBody.position = new Vector3(0.0f, 30.0f, 0.0f);
             rigidBody.velocity = Vector3.zero;
             rigidBody.angularVelocity = Vector3.zero;
 
             Destroy(Model);
 
             IsDead = true;
+
+            uiManager.OnDeath();
+        }
+
+        [PunRPC]
+        public void ResetPlayerPosition()
+        {
+            rigidBody.position = new Vector3(0.0f, 30.0f, 0.0f);
+        }
+
+        private void OnPlayerDeathMessageShown(object sender, EventArgs e)
+        {
+            photonView.RPC("ResetPlayerPosition", RpcTarget.Others);
+            ResetPlayerPosition();
         }
 
         public void Update()

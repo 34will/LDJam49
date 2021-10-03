@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 namespace Unstable.UI
@@ -5,6 +6,10 @@ namespace Unstable.UI
     public class UnstableUI : MonoBehaviour
     {
         public PausePanel PausePanel;
+
+        public DeathMessage DeathMessage;
+
+        public GameObject SpectatingPanel;
 
         public void QuitGame()
         {

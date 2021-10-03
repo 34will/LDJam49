@@ -46,39 +46,5 @@ namespace Unstable
         {
             PhotonNetwork.LeaveRoom();
         }
-
-        // public void LoadArena()
-        // {
-        //     if (!PhotonNetwork.IsMasterClient)
-        //     {
-        //         Debug.LogError("PhotonNetwork: Trying to Load a level but we are not the master Client");
-        //         return;
-        //     }
-        //     Debug.Log("PhotonNetwork: Loading Arena Level");
-        //     PhotonNetwork.LoadLevel("Arena");
-        // }
-
-        // public override void OnPlayerEnteredRoom(Player other)
-        // {
-        //     Debug.LogFormat("OnPlayerEnteredRoom() {0}", other.NickName);
-
-        //     if (!PhotonNetwork.IsMasterClient)
-        //         return;
-
-        //     Debug.LogFormat("OnPlayerEnteredRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient);
-        //     LoadArena();
-        // }
-
-
-        // public override void OnPlayerLeftRoom(Player other)
-        // {
-        //     Debug.LogFormat("OnPlayerLeftRoom() {0}", other.NickName);
-
-        //     if (!PhotonNetwork.IsMasterClient)
-        //         return;
-
-        //     Debug.LogFormat("OnPlayerLeftRoom IsMasterClient {0}", PhotonNetwork.IsMasterClient);
-        //     LoadArena();
-        // }
     }
 }

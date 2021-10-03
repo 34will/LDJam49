@@ -334,6 +334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06973698dd47a0848b74fbd6a65ab453, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UI: {fileID: 0}
   CancelKey: 112
   CameraController: {fileID: 5673842620309919248}
   WalkerController: {fileID: 5673863574078897808}
