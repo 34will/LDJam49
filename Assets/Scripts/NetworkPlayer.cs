@@ -35,6 +35,18 @@ namespace Unstable
             rigidBody = GetComponent<Rigidbody>();
         }
 
+        [PunRPC]
+        public void Die()
+        {
+            rigidBody.position = new Vector3(0.0f, 30.0f, 0.0f);
+            rigidBody.velocity = Vector3.zero;
+            rigidBody.angularVelocity = Vector3.zero;
+
+            Destroy(Model);
+
+            IsDead = true;
+        }
+
         public void Update()
         {
             if (!photonView.IsMine)
@@ -43,16 +55,11 @@ namespace Unstable
             if (transform.position.y > DeathHeight || IsDead)
                 return;
 
-            rigidBody.position = new Vector3(0.0f, 30.0f, 0.0f);
-            rigidBody.velocity = Vector3.zero;
-            rigidBody.angularVelocity = Vector3.zero;
-
-            Destroy(Model);
+            photonView.RPC("Die", RpcTarget.Others);
+            Die();
 
             foreach (MonoBehaviour behaviour in ToDisableOnDeath)
                 behaviour.enabled = false;
-            
-            IsDead = true;
         }
     }
 }
