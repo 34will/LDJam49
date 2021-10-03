@@ -13,6 +13,10 @@ namespace Unstable
             Collider[] colliders = GetComponentsInChildren<Collider>();
             foreach (Collider collider in colliders)
                 collider.enabled = false;
+
+            Rigidbody[] rigidBodies = GetComponentsInChildren<Rigidbody>();
+            foreach (Rigidbody rigidBody in rigidBodies)
+                rigidBody.useGravity = false;
         }
     }
 }
