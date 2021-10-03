@@ -317,6 +317,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Camera: {fileID: 5705792504241568998}
   Model: {fileID: 5705946453367474742}
+  IsDead: 0
   DeathHeight: 2
   ToDisableOnDeath:
   - {fileID: 5673460375120632638}
