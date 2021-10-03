@@ -2,31 +2,24 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Photon.Pun;
 using UnityEngine;
+using Unstable;
 using Unstable.Utility;
 
 public class PlatformGenerator : MonoBehaviour
 {
-    private readonly static Regex mapRegex = new Regex("^(\\d+)x(\\d+)([MRmr])(.*)$");
-
     private List<GameObject> Platforms = new List<GameObject>();
 
     public GenericDictionary<string, GameObject> Tiles;
-    public string MapString;
 
     public float TileSize = 20.0f;
     public float TileGap = 0.5f;
-
-    public int MapWidth;
-    public int MapHeight;
 
     public void Start()
     {
         if (!PhotonNetwork.IsMasterClient)
             return;
 
-        Debug.Log("Platforms Start");
-        MapString = PhotonNetwork.CurrentRoom.CustomProperties["m"].ToString();
-        CreateMapFromMapString();
+        CreateMapFromOptions();
     }
 
     private void DestroyAllChildren()
@@ -37,48 +30,18 @@ public class PlatformGenerator : MonoBehaviour
         Platforms.Clear();
     }
 
-    private void CreateMapFromMapString()
+    private void CreateMapFromOptions()
     {
         DestroyAllChildren();
 
-        // 1st section is <width>x<height> e.g. 5x5 means a 5 by 5 map
-        // 2nd section is <letter> is 'M' for map string or 'R' for random map with optional seed
-        // 3rd section for 'M' is map string of length width * height
-        // 3rd section for 'R' is either empty, in which case generate a random seed from time, otherwise a number which is the seed
+        UnstableRoomOptions options = UnstableRoomOptions.Current;
+        int MapWidth = options.Width;
+        int MapHeight = options.Height;
 
-        if (string.IsNullOrWhiteSpace(MapString))
+        switch (options.MapType)
         {
-            Debug.Log("Null or whitespace map string");
-            return;
-        }
-
-        Match match = mapRegex.Match(MapString);
-        if (!match.Success)
-        {
-            Debug.Log("Invalid map string");
-            return;
-        }
-
-        string widthString = match.Groups[1].Value;
-        if (!int.TryParse(widthString, out MapWidth))
-        {
-            MapWidth = 0;
-            Debug.Log("Invalid width");
-            return;
-        }
-
-        string heightString = match.Groups[2].Value;
-        if (!int.TryParse(heightString, out MapHeight))
-        {
-            MapHeight = 0;
-            Debug.Log("Invalid height");
-            return;
-        }
-
-        switch (match.Groups[3].Value)
-        {
-            case "M":
-                string mapTilesString = match.Groups[4].Value;
+            case MapType.Map:
+                string mapTilesString = options.MapString;
                 int size = MapWidth * MapHeight;
                 if (mapTilesString.Length != size)
                 {
@@ -104,7 +67,7 @@ public class PlatformGenerator : MonoBehaviour
                 }
 
                 break;
-            case "R":
+            case MapType.Random:
                 break;
             default:
                 Debug.Log("Invalid map type");

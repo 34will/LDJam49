@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Unstable;
 
 public class Debris
 {
@@ -47,11 +48,14 @@ public class DebrisController : MonoBehaviour
 
     private Vector3? GetRandomSpawnPosition()
     {
-        if (PlatformGenerator.MapWidth <= 0 || PlatformGenerator.MapHeight <= 0)
+        UnstableRoomOptions options = UnstableRoomOptions.Current;
+        int width = options.Width;
+        int height = options.Height;
+        if (width <= 0 || height <= 0)
             return null;
 
-        float maxX = PlatformGenerator.TileOffset * PlatformGenerator.MapWidth;
-        float maxY = PlatformGenerator.TileOffset * PlatformGenerator.MapHeight;
+        float maxX = PlatformGenerator.TileOffset * width;
+        float maxY = PlatformGenerator.TileOffset * height;
         float x = Random.Range(0, maxX);
         float y = Random.Range(0, maxY);
         return new Vector3(x, SpawnHeight, y);
