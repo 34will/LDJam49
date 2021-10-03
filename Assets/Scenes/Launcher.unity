@@ -5659,6 +5659,7 @@ MonoBehaviour:
   ReadyButton: {fileID: 16634431}
   KickButton: {fileID: 638348662}
   PromoteButton: {fileID: 562766855}
+  StartGameButton: {fileID: 1915860722}
   RoomPanelServerItems:
   - {fileID: 1915860720}
   - {fileID: 638348660}
@@ -7265,7 +7266,7 @@ MonoBehaviour:
   m_Text: 
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
-  m_ReadOnly: 1
+  m_ReadOnly: 0
   m_ShouldActivateOnSelect: 1
 --- !u!114 &1081586370
 MonoBehaviour:
