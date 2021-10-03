@@ -135,13 +135,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5708986434742156944}
+  - component: {fileID: 5758310922250627938}
   - component: {fileID: 5677346362783093504}
   - component: {fileID: 5673460375120632638}
-  - component: {fileID: 5758310922250627938}
   - component: {fileID: 5673863574078897808}
   - component: {fileID: 5673887469617317816}
   - component: {fileID: 2261068853101274331}
-  - component: {fileID: 6578649511477230316}
+  - component: {fileID: 6211897969305660269}
   - component: {fileID: 3362559895228107089}
   - component: {fileID: 6402011809554207324}
   m_Layer: 0
@@ -167,6 +167,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &5758310922250627938
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5705114112157047880}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!136 &5677346362783093504
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -209,22 +225,6 @@ MonoBehaviour:
   - {x: -0.80901706, y: 0, z: 0.5877852}
   - {x: -0.80901706, y: 0, z: -0.5877851}
   - {x: 0.30901712, y: 0, z: -0.9510565}
---- !u!54 &5758310922250627938
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5705114112157047880}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 1
-  m_Constraints: 112
-  m_CollisionDetection: 0
 --- !u!114 &5673863574078897808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,11 +283,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 6578649511477230316}
+  - {fileID: 6211897969305660269}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &6578649511477230316
+--- !u!114 &6211897969305660269
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -316,6 +316,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Camera: {fileID: 5705792504241568998}
+  Model: {fileID: 5705946453367474742}
+  DeathHeight: 2
+  ToDisableOnDeath:
+  - {fileID: 5673460375120632638}
+  - {fileID: 5673863574078897808}
 --- !u!114 &6402011809554207324
 MonoBehaviour:
   m_ObjectHideFlags: 0
