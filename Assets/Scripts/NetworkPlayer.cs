@@ -32,16 +32,12 @@ namespace Unstable
         public void Start()
         {
             Camera.SetActive(photonView.IsMine);
-
-            if (!PhotonNetwork.IsMasterClient)
-                return;
-
             rigidBody = GetComponent<Rigidbody>();
         }
 
         public void Update()
         {
-            if (!PhotonNetwork.IsMasterClient)
+            if (!photonView.IsMine)
                 return;
 
             if (transform.position.y > DeathHeight || IsDead)
