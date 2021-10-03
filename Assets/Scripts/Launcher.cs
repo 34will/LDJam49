@@ -19,7 +19,7 @@ namespace Unstable
 
         private Player masterClient;
 
-        public byte MaxPlayersPerRoom = 4;
+        public byte DefaultMaxPlayersPerRoom = 4;
 
         public InputField PlayerName;
 
@@ -35,6 +35,8 @@ namespace Unstable
 
         public Button PromoteButton;
 
+        public Button StartGameButton;
+
         public List<GameObject> RoomPanelServerItems;
 
         public List<GameObject> RoomPanelClientItems;
@@ -47,10 +49,39 @@ namespace Unstable
 
         public InputField JoinRoomName;
 
+        public Dropdown RoomTypeDropdown;
+        public Text RoomType;
+
+        public InputField RoomWidthInput;
+        public Text RoomWidth;
+
+        public InputField RoomHeightInput;
+        public Text RoomHeight;
+    
+        public Text RoomMapStringLabel;
+        public Text RoomMapString;
+        public InputField RoomMapStringInput;
+
+        public Dropdown RoomGamemodeDropdown;
+        public Text RoomGamemode;
+
+        public Dropdown RoomDebrisDropdown;
+        public Text RoomDebris;
+
+        public Dropdown RoomDroppersDropdown;
+        public Text RoomDroppers;
+
+        public InputField RoomMaxPlayersInput;
+        public Text RoomMaxPlayers;
+
+        public Dropdown RoomAllowRandomsDropdown;
+        public Text RoomAllowRandoms;
+
         public void Awake()
         {
             PhotonNetwork.AutomaticallySyncScene = true;
             PhotonNetwork.EnableCloseConnection = true;
+            PhotonPeer.RegisterType(typeof(UnstableRoomOptions), 0, UnstableRoomOptions.Serialize, UnstableRoomOptions.Deserialize);
         }
 
         private void ResetUI()
@@ -90,10 +121,7 @@ namespace Unstable
             RoomPanel.SetActive(false);
             RoomButtonsPanel.SetActive(true);
 
-            PhotonNetwork.SetPlayerCustomProperties(new Hashtable
-            {
-                { playerReadyKey, false }
-            });
+            PhotonNetwork.SetPlayerCustomProperties(new Hashtable { { playerReadyKey, false } });
         }
 
         public override void OnDisconnected(DisconnectCause cause)
@@ -131,13 +159,10 @@ namespace Unstable
 
             PhotonNetwork.CreateRoom(roomName, new RoomOptions
             {
-                MaxPlayers = MaxPlayersPerRoom,
+                IsVisible = false,
+                MaxPlayers = DefaultMaxPlayersPerRoom,
                 PublishUserId = true,
-                CustomRoomProperties = new Hashtable
-                {
-                    // { "m", "5x5MS-S-S| | |S-Z-S| | |S-S-S" }
-                    { "m", "5x5MS-S-S| | |S-D-S| | |S-S-S" }
-                }
+                CustomRoomProperties = new Hashtable { { UnstableRoomOptions.RoomOptionsKey, new UnstableRoomOptions() } }
             });
         }
 
@@ -163,6 +188,7 @@ namespace Unstable
             RoomPanel.SetActive(true);
             PlayerList.Clear();
             UpdateRoomButtons();
+            UpdateRoomUI();
 
             DisplayRoomName.text = PhotonNetwork.CurrentRoom.Name;
 
@@ -173,6 +199,247 @@ namespace Unstable
                 if (player.IsMasterClient)
                     masterClient = player;
             }
+        }
+
+        public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+        {
+            if (!PhotonNetwork.IsMasterClient)
+                UpdateRoomUI();
+        }
+
+        private void UpdateRoomUI()
+        {
+            UnstableRoomOptions options = UnstableRoomOptions.Current;
+            if (options == null)
+                return;
+
+            Debug.Log(options);
+
+            if (PhotonNetwork.IsMasterClient)
+            {
+                switch (options.MapType)
+                {
+                    case MapType.Map:
+                        RoomTypeDropdown.value = 0;
+                        break;
+                    case MapType.Random:
+                        RoomTypeDropdown.value = 1;
+                        break;
+                }
+                RoomWidthInput.text = options.Width.ToString();
+                RoomHeightInput.text = options.Height.ToString();
+                RoomMapStringInput.text = options.MapString.ToString();
+                switch (options.Gamemode)
+                {
+                    case Gamemode.LastPersonStanding:
+                        RoomGamemodeDropdown.value = 0;
+                        break;
+                    case Gamemode.Tag:
+                        RoomGamemodeDropdown.value = 1;
+                        break;
+                    case Gamemode.CaptureTheFlag:
+                        RoomGamemodeDropdown.value = 2;
+                        break;
+                    case Gamemode.KingOfTheHill:
+                        RoomGamemodeDropdown.value = 3;
+                        break;
+                }
+                RoomDebrisDropdown.value = options.Debris ? 0 : 1;
+                RoomDroppersDropdown.value = options.Droppers ? 0 : 1;
+                RoomMaxPlayersInput.text = PhotonNetwork.CurrentRoom.MaxPlayers.ToString();
+                RoomAllowRandomsDropdown.value = PhotonNetwork.CurrentRoom.IsVisible ? 0 : 1;
+            }
+            else
+            {
+                switch (options.MapType)
+                {
+                    case MapType.Map:
+                        RoomType.text = "Map";
+                        break;
+                    case MapType.Random:
+                        RoomType.text = "Random";
+                        break;
+                }
+                RoomWidth.text = options.Width.ToString();
+                RoomHeight.text = options.Height.ToString();
+                RoomMapString.text = options.MapString.ToString();
+                switch (options.Gamemode)
+                {
+                    case Gamemode.LastPersonStanding:
+                        RoomGamemode.text = "Last Person Standing";
+                        break;
+                    case Gamemode.Tag:
+                        RoomGamemode.text = "Tag";
+                        break;
+                    case Gamemode.CaptureTheFlag:
+                        RoomGamemode.text = "Capture the Flag";
+                        break;
+                    case Gamemode.KingOfTheHill:
+                        RoomGamemode.text = "King of the Hill";
+                        break;
+                }
+                RoomDebris.text = options.Debris ? "Yes" : "No";
+                RoomDroppers.text = options.Droppers ? "Yes" : "No";
+                RoomMaxPlayers.text = PhotonNetwork.CurrentRoom.MaxPlayers.ToString();
+                RoomAllowRandoms.text = PhotonNetwork.CurrentRoom.IsVisible ? "Yes" : "No";
+            }
+        }
+
+        public void RoomTypeChanged()
+        {
+            int value = RoomTypeDropdown.value;
+            if (!PhotonNetwork.IsMasterClient || value < 0 || value > 1)
+                return;
+
+            UnstableRoomOptions options = UnstableRoomOptions.Current;
+            if (options == null)
+                return;
+
+            options.MapType = (MapType)value;
+
+            UnstableRoomOptions.Current = options;
+        }
+
+        public void RoomWidthChanged()
+        {
+            string value = RoomWidthInput.text;
+            if (!PhotonNetwork.IsMasterClient || string.IsNullOrWhiteSpace(value) || !int.TryParse(value, out int intValue))
+                return;
+            if (intValue < 0)
+            {
+                RoomWidth.text = "0";
+                return;
+            }
+
+            UnstableRoomOptions options = UnstableRoomOptions.Current;
+            if (options == null)
+                return;
+
+            options.Width = intValue;
+            ValidifyRoomSize(null, options);
+
+            UnstableRoomOptions.Current = options;
+        }
+
+        public void RoomHeightChanged()
+        {
+            string value = RoomHeightInput.text;
+            if (!PhotonNetwork.IsMasterClient || string.IsNullOrWhiteSpace(value) || !int.TryParse(value, out int intValue))
+                return;
+            if (intValue < 0)
+            {
+                RoomHeight.text = "0";
+                return;
+            }
+
+            UnstableRoomOptions options = UnstableRoomOptions.Current;
+            if (options == null)
+                return;
+
+            options.Height = intValue;
+            ValidifyRoomSize(null, options);
+
+            UnstableRoomOptions.Current = options;
+        }
+
+        private bool ValidifyRoomSize(string value = null, UnstableRoomOptions options = null)
+        {
+            if (value == null)
+                value = RoomMapStringInput.text;
+            if (string.IsNullOrWhiteSpace(value))
+                return false;
+            if (options == null)
+                options = UnstableRoomOptions.Current;
+
+            bool areEqual = value.Length == (options.Width * options.Height);
+            RoomMapStringLabel.color = areEqual ? Color.white : Color.red;
+            StartGameButton.interactable = areEqual;
+            return areEqual;
+        }
+
+        public void RoomMapStringChanged()
+        {
+            string value = RoomMapStringInput.text;
+            if (!PhotonNetwork.IsMasterClient || string.IsNullOrWhiteSpace(value))
+                return;
+
+            UnstableRoomOptions options = UnstableRoomOptions.Current;
+            if (options == null)
+                return;
+
+            ValidifyRoomSize(value, options);
+
+            options.MapString = value;
+
+            UnstableRoomOptions.Current = options;
+        }
+
+        public void RoomGamemodeChanged()
+        {
+            int value = RoomGamemodeDropdown.value;
+            if (!PhotonNetwork.IsMasterClient || value < 0 || value > 3)
+                return;
+
+            UnstableRoomOptions options = UnstableRoomOptions.Current;
+            if (options == null)
+                return;
+
+            options.Gamemode = (Gamemode)value;
+
+            UnstableRoomOptions.Current = options;
+        }
+
+        public void RoomDebrisChanged()
+        {
+            int value = RoomDebrisDropdown.value;
+            if (!PhotonNetwork.IsMasterClient || value < 0 || value > 1)
+                return;
+
+            UnstableRoomOptions options = UnstableRoomOptions.Current;
+            if (options == null)
+                return;
+
+            options.Debris = value == 0;
+
+            UnstableRoomOptions.Current = options;
+        }
+
+        public void RoomDroppersChanged()
+        {
+            int value = RoomDroppersDropdown.value;
+            if (!PhotonNetwork.IsMasterClient || value < 0 || value > 1)
+                return;
+
+            UnstableRoomOptions options = UnstableRoomOptions.Current;
+            if (options == null)
+                return;
+
+            options.Droppers = value == 0;
+
+            UnstableRoomOptions.Current = options;
+        }
+
+        public void RoomMaxPlayersChanged()
+        {
+            string value = RoomMaxPlayersInput.text;
+            if (!PhotonNetwork.IsMasterClient || string.IsNullOrWhiteSpace(value) || !byte.TryParse(value, out byte byteValue))
+                return;
+            if (byteValue < 0)
+            {
+                RoomMaxPlayers.text = "0";
+                return;
+            }
+
+            PhotonNetwork.CurrentRoom.MaxPlayers = byteValue;
+        }
+
+        public void RoomAllowRandomsChanged()
+        {
+            int value = RoomAllowRandomsDropdown.value;
+            if (!PhotonNetwork.IsMasterClient || value < 0 || value > 1)
+                return;
+
+            PhotonNetwork.CurrentRoom.IsVisible = value == 0;
         }
 
         public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -275,6 +542,7 @@ namespace Unstable
             masterClient = newMasterClient;
 
             UpdateRoomButtons();
+            UpdateRoomUI();
         }
 
         private void PlayerListItemSelected(object sender, ListItem item)
@@ -318,7 +586,7 @@ namespace Unstable
                 if (useLetter)
                     result += (char)(65 + Random.Range(0, 26));
                 else
-                    result += Random.Range(0, 10).ToString();
+                    result += Random.Range(1, 10).ToString();
             }
             return result;
         }
