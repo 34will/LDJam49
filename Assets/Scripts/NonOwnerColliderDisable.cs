@@ -10,10 +10,6 @@ namespace Unstable
             if (PhotonNetwork.IsMasterClient)
                 return;
 
-            // Collider[] colliders = GetComponentsInChildren<Collider>();
-            // foreach (Collider collider in colliders)
-            //     collider.enabled = false;
-
             Rigidbody[] rigidBodies = GetComponentsInChildren<Rigidbody>();
             foreach (Rigidbody rigidBody in rigidBodies)
                 rigidBody.isKinematic = true;
