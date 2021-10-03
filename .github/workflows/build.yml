@@ -1,8 +1,7 @@
-name: Build project
+name: Deploy project
 
 on:
   workflow_dispatch:
-  push:
 
 jobs:
   build:
@@ -11,21 +10,25 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
           lfs: true
-      - uses: actions/cache@v2
+      - name: Cache
+        uses: actions/cache@v2
         with:
           path: Library
           key: Library-WebGL
           restore-keys: Library-
-      - uses: game-ci/unity-builder@v2
+      - name: Build
+        uses: game-ci/unity-builder@v2
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
           targetPlatform: WebGL
-      - uses: actions/upload-artifact@v2
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
-          name: Build-WebGL
-          path: build/WebGL
+          branch: gh-pages # The branch the action should deploy to.
+          folder: Build-WebGL # The folder the action should deploy.
