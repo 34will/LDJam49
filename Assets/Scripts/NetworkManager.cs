@@ -1,8 +1,12 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unstable.UI;
+using Random = UnityEngine.Random;
 
 namespace Unstable
 {
@@ -10,11 +14,23 @@ namespace Unstable
     {
         private PlatformGenerator platformGenerator;
 
+        private Dictionary<string, NetworkPlayer> players = new Dictionary<string, NetworkPlayer>();
+
+        private float gameRestartTimer = 0.0f;
+
+        private bool gameOver = false;
+
+        private bool restarting = false;
+
         public GameObject PlayerPrefab;
         public GameObject PlatformsPrefab;
         public GameObject DebrisPrefab;
 
+        public UnstableUI UI;
+
         public float SpawnHeight = 30.0f;
+
+        public float GameRestartTime = 10.0f;
 
         public void Start()
         {
@@ -95,9 +111,21 @@ namespace Unstable
         public void SpawnPlayer(Vector3 position, Vector3 mapCenter)
         {
             GameObject player = PhotonNetwork.Instantiate(PlayerPrefab.name, position, Quaternion.identity, 0);
-            player.GetComponent<NetworkPlayer>().MapCenter = mapCenter;
+            NetworkPlayer networkPlayer = player.GetComponent<NetworkPlayer>();
+            networkPlayer.MapCenter = mapCenter;
 
             RespawnPlayer(position);
+        }
+
+        public void RegisterPlayer(NetworkPlayer player)
+        {
+            players[player.photonView.Owner.UserId] = player;
+        }
+
+        public override void OnPlayerLeftRoom(Player otherPlayer)
+        {
+            if (PhotonNetwork.IsMasterClient)
+                players.Remove(otherPlayer.UserId);
         }
 
         [PunRPC]
@@ -122,6 +150,74 @@ namespace Unstable
                 return;
             for (int i = 0; i < players.Length; i++)
                 photonView.RPC("RespawnPlayer", players[i], validSpawns[i]);
+
+            gameOver = false;
+            restarting = true;
+            gameRestartTimer = 0.0f;
+        }
+
+        [PunRPC]
+        private void Victory(string message)
+        {
+            gameOver = true;
+
+            UI.VictoryMessage.Text.text = message;
+
+            if (!UI.DeathMessage.IsPlaying())
+            {
+                UI.VictoryMessage.gameObject.SetActive(true);
+                UI.VictoryMessage.Animate();
+                return;
+            }
+            
+            EventHandler handler = null;
+            handler = (object sender, EventArgs e) =>
+            {
+                UI.DeathMessage.gameObject.SetActive(false);
+                UI.VictoryMessage.gameObject.SetActive(true);
+                UI.VictoryMessage.Animate();
+                UI.DeathMessage.OnMessageShown -= handler;
+            };
+            UI.DeathMessage.OnMessageShown += handler;
+        }
+
+        private void CheckWinCondition()
+        {
+            if (gameOver)
+                return;
+
+            UnstableRoomOptions roomOptions = UnstableRoomOptions.Current;
+            switch (roomOptions.Gamemode)
+            {
+                case Gamemode.LastPersonStanding:
+                    var allPlayers = players.Values;
+                    NetworkPlayer[] alive = allPlayers
+                        .Where(x => !x.IsDead)
+                        .ToArray();
+                    if (alive.Length > 1)
+                        return;
+                    if (alive.Length == 0)
+                    {
+                        string message = "Draw";
+                        photonView.RPC("Victory", RpcTarget.Others, message);
+                        Victory(message);
+                    }
+                    else if (allPlayers.Count != 1)
+                    {
+                        NetworkPlayer winner = alive[0];
+                        string message = $"{winner.photonView.Owner.NickName} wins!";
+                        winner.Win();
+                        photonView.RPC("Victory", RpcTarget.Others, message);
+                        Victory(message);
+                    }
+                    break;
+                case Gamemode.Tag:
+                    break;
+                case Gamemode.CaptureTheFlag:
+                    break;
+                case Gamemode.KingOfTheHill:
+                    break;
+            }
         }
 
         public void Update()
@@ -129,8 +225,19 @@ namespace Unstable
             if (!PhotonNetwork.IsMasterClient)
                 return;
 
-            if (Input.GetKeyDown(KeyCode.R))
-                Reset();
+            if (!restarting)
+                CheckWinCondition();
+            else
+                restarting = players.Values.Any(x => x.IsDead);
+
+            if (!gameOver)
+                return;
+
+            gameRestartTimer += Time.deltaTime;
+            if (gameRestartTimer < GameRestartTime)
+                return;
+
+            Reset();
         }
 
         public override void OnLeftRoom()

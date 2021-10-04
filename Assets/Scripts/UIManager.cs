@@ -66,6 +66,7 @@ public class UIManager : MonoBehaviourPun
     public void OnRevive()
     {
         UI.DeathMessage.gameObject.SetActive(false);
+        UI.VictoryMessage.gameObject.SetActive(false);
         UI.SpectatingPanel.gameObject.SetActive(false);
     }
 
@@ -75,9 +76,14 @@ public class UIManager : MonoBehaviourPun
         UI.DeathMessage.Animate();
     }
 
+    public void Spectate()
+    {
+        UI.SpectatingPanel.gameObject.SetActive(true);
+    }
+
     public void OnDeathAnimationFinished(object sender, EventArgs e)
     {
         UI.DeathMessage.gameObject.SetActive(false);
-        UI.SpectatingPanel.gameObject.SetActive(true);
+        Spectate();
     }
 }

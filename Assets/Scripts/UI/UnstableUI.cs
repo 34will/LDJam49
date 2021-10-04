@@ -7,7 +7,9 @@ namespace Unstable.UI
     {
         public PausePanel PausePanel;
 
-        public DeathMessage DeathMessage;
+        public MessageFader DeathMessage;
+
+        public MessageFader VictoryMessage;
 
         public GameObject SpectatingPanel;
 

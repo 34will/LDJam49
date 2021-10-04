@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CMF;
 using Photon.Pun;
 using UnityEngine;
 
@@ -11,9 +12,11 @@ namespace Unstable
     {
         public static NetworkPlayer Instance;
 
-        private Rigidbody rigidBody;
+        public Rigidbody rigidBody;
 
         private UIManager uiManager;
+
+        public AdvancedWalkerController WalkerController;
 
         public GameObject Camera;
 
@@ -33,6 +36,11 @@ namespace Unstable
                 Instance = this;
 
             DontDestroyOnLoad(gameObject);
+
+            if (!PhotonNetwork.IsMasterClient)
+                return;
+
+            GameObject.Find("/GameManager").GetComponent<NetworkManager>().RegisterPlayer(this);
         }
 
         public void Start()
@@ -63,6 +71,7 @@ namespace Unstable
             rigidBody.isKinematic = dead;
             rigidBody.velocity = Vector3.zero;
             rigidBody.angularVelocity = Vector3.zero;
+            WalkerController.SetMomentum(Vector3.zero);
 
             Model.SetActive(!dead);
 
@@ -96,6 +105,24 @@ namespace Unstable
             if (!photonView.IsMine)
                 return;
             uiManager.OnDeath();
+        }
+
+        [PunRPC]
+        private void DoWin()
+        {
+            SetState(true);
+            ResetPlayerPosition();
+
+            if (!photonView.IsMine)
+                return;
+            uiManager.Spectate();
+        }
+
+        [PunRPC]
+        public void Win()
+        {
+            photonView.RPC("DoWin", RpcTarget.Others);
+            DoWin();
         }
 
         [PunRPC]

@@ -1731,7 +1731,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 250681948}
   m_Template: {fileID: 227421578}
   m_CaptionText: {fileID: 905348504}
@@ -4353,7 +4353,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 570679744}
   m_Template: {fileID: 298559301}
   m_CaptionText: {fileID: 1742411656}
@@ -4832,14 +4832,14 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 671235124}
   m_Template: {fileID: 1990999961}
   m_CaptionText: {fileID: 2019642686}
   m_CaptionImage: {fileID: 0}
   m_ItemText: {fileID: 1748229656}
   m_ItemImage: {fileID: 0}
-  m_Value: 0
+  m_Value: 1
   m_Options:
     m_Options:
     - m_Text: Yes
@@ -11044,7 +11044,7 @@ GameObject:
   - component: {fileID: 1795329805}
   - component: {fileID: 1795329804}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12113,7 +12113,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Yes
+  m_Text: No
 --- !u!222 &2019642687
 CanvasRenderer:
   m_ObjectHideFlags: 0

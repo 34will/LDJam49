@@ -87,9 +87,9 @@ namespace Unstable
         private void ResetUI()
         {
             ProgressLabel.SetActive(false);
-            RoomButtonsPanel.SetActive(false);
             RoomPanel.SetActive(false);
-            NamePanel.SetActive(true);
+            RoomButtonsPanel.SetActive(PhotonNetwork.IsConnected);
+            NamePanel.SetActive(!PhotonNetwork.IsConnected);
         }
 
         public void Start()
